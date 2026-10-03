@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Likhitha's Digital Clock</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:Arial,sans-serif;color:white;
+  background:linear-gradient(135deg,#141e30,#243b55);
+  overflow:hidden;
+}
+.container{text-align:center;padding:30px;width:min(900px,92%)}
+.badge{display:inline-block;padding:8px 16px;border-radius:20px;background:rgba(255,255,255,.12);font-size:13px;letter-spacing:1px;margin-bottom:20px}
+h1{font-size:clamp(32px,6vw,58px);margin-bottom:10px}
+.subtitle{opacity:.8;margin-bottom:35px}
+.clock{
+  font-size:clamp(52px,12vw,120px);font-weight:700;letter-spacing:6px;
+  text-shadow:0 0 25px rgba(255,255,255,.25);
+  margin-bottom:28px;
+}
+.date{font-size:20px;opacity:.9;margin-bottom:35px}
+.card{
+  background:rgba(255,255,255,.10);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.18);border-radius:24px;
+  padding:28px;box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+.card h2{margin-bottom:18px}
+.countdown{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.unit{min-width:95px;padding:18px 12px;background:rgba(0,0,0,.18);border-radius:16px}
+.number{display:block;font-size:34px;font-weight:bold}
+.label{font-size:12px;opacity:.7;text-transform:uppercase}
+footer{margin-top:28px;font-size:13px;opacity:.65}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="badge">WEEK 2 • CSS + BASIC JAVASCRIPT</div>
+  <h1>Digital Clock</h1>
+  <p class="subtitle">A live clock and New Year countdown built with JavaScript.</p>
+
+  <div class="clock" id="clock">00:00:00</div>
+  <div class="date" id="date">Loading...</div>
+
+  <div class="card">
+    <h2>Countdown to New Year 🎉</h2>
+    <div class="countdown">
+      <div class="unit"><span class="number" id="days">0</span><span class="label">Days</span></div>
+      <div class="unit"><span class="number" id="hours">0</span><span class="label">Hours</span></div>
+      <div class="unit"><span class="number" id="minutes">0</span><span class="label">Minutes</span></div>
+      <div class="unit"><span class="number" id="seconds">0</span><span class="label">Seconds</span></div>
+    </div>
+  </div>
+  <footer>Created by Yeddula Likhitha Reddy • Week 2 Assignment</footer>
+</div>
+
+<script>
+function updateClock(){
+  const now = new Date();
+  document.getElementById("clock").textContent =
+    [now.getHours(), now.getMinutes(), now.getSeconds()]
+    .map(n => String(n).padStart(2,"0")).join(":");
+
+  document.getElementById("date").textContent =
+    now.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+
+  let year = now.getFullYear() + 1;
+  const target = new Date(`January 1, ${year} 00:00:00`);
+  const diff = Math.max(0, target - now);
+
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+
+  document.getElementById("days").textContent = d;
+  document.getElementById("hours").textContent = String(h).padStart(2,"0");
+  document.getElementById("minutes").textContent = String(m).padStart(2,"0");
+  document.getElementById("seconds").textContent = String(s).padStart(2,"0");
+}
+updateClock();
+setInterval(updateClock,1000);
+</script>
+</body>
+</html>
